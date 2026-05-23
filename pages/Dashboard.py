@@ -51,13 +51,13 @@ st.divider()
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.metric("Total Spent", f"₹{filtered_df['cost'].sum():,.0f}")
+    st.metric("Total Spent", f"₹{filtered_df['amount'].sum():,.0f}")
 
 with col2:
     st.metric("Transactions", len(filtered_df))
 
 with col3:
-    st.metric("Avg Expense", f"₹{filtered_df['cost'].mean():,.0f}")
+    st.metric("Avg Expense", f"₹{filtered_df['amount'].mean():,.0f}")
 
 st.divider()
 
@@ -67,7 +67,7 @@ st.divider()
 
 st.subheader("📈 Monthly Spending Trend")
 
-monthly = filtered_df.groupby("month_name")["cost"].sum()
+monthly = filtered_df.groupby("month_name")["amount"].sum()
 
 month_order = list(calendar.month_abbr)[1:]
 
@@ -88,7 +88,7 @@ with col1:
     st.subheader("📂 Spending by Category")
 
     category_spend = (
-        filtered_df.groupby("item")["cost"].sum().sort_values(ascending=False)
+        filtered_df.groupby("item")["amount"].sum().sort_values(ascending=False)
     )
 
     st.bar_chart(category_spend)
@@ -97,7 +97,7 @@ with col2:
 
     st.subheader("👤 Spending by User")
 
-    user_spend = filtered_df.groupby("user")["cost"].sum()
+    user_spend = filtered_df.groupby("user")["amount"].sum()
 
     st.bar_chart(user_spend)
 
@@ -111,11 +111,11 @@ st.subheader("🧾 Recent Expenses")
 
 recent = filtered_df.sort_values("date", ascending=False).head(5)
 
-display_df = recent[["date", "item", "cost", "placeOfPurchase", "user"]].rename(
+display_df = recent[["date", "item", "amount", "placeOfPurchase", "user"]].rename(
     columns={
         "date": "Date",
         "item": "Category",
-        "cost": "Amount",
+        "amount": "Amount",
         "placeOfPurchase": "Place",
         "user": "User",
     }
